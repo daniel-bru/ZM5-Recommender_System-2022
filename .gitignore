@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# datasets (too large for GitHub)
+test.csv
+train.csv
+
+# vscode settings
+.vscode/settings.json
