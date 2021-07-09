@@ -131,6 +131,25 @@ dmypy.json
 # datasets (too large for GitHub)
 test.csv
 train.csv
+genome_scores.csv
+genome_tags.csv
+imdb_data.csv
+links.csv
+movies.csv
+sample_submission.csv
+tags.csv
+data/test.csv
+data/train.csv
+data/genome_scores.csv
+data/genome_tags.csv
+data/imdb_data.csv
+data/links.csv
+data/movies.csv
+data/sample_submission.csv
+data/tags.csv
 
 # vscode settings
 .vscode/settings.json
+
+# private markdown
+TO-DO.md
