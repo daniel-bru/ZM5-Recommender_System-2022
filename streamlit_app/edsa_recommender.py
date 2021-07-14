@@ -137,9 +137,9 @@ def main():
         col5.image(Pic,caption="Givenson Mwandla", width=150)
         col5.write('gtmwandla@gmail.com')
 
-    #Pic =Image.open('resources/imgs/Givenson_pic.png') 
-    #col6.image(Pic,caption="Akhona Njeje", width=150)
-    #col6.write('Akhonanjeje@yahoo.com')
+        #Pic =Image.open('resources/imgs/Givenson_pic.png') 
+        #col6.image(Pic,caption="Akhona Njeje", width=150)
+        #col6.write('Akhonanjeje@yahoo.com')
 
 
     # You may want to add more sections here for aspects such as an EDA,
