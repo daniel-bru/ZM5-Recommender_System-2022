@@ -111,7 +111,7 @@ def main():
 		#First row of pictures
 
     col1, col2,col3 = st.beta_columns(3)
-    Pic =Image.open('resources/imgs/Daniel_pic.png') 
+    Pic =Image.open('resources/imgs/Daniel_Pic.png') 
     col1.image(Pic,caption="Daniel Bruintjies", width=150)
     col1.write('dmbruintjies@gmail.com')
         
