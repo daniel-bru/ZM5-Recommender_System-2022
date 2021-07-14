@@ -116,12 +116,12 @@ def main():
     col1.write('dmbruintjies@gmail.com')
         
     
-    Pic =Image.open('resources/imgs/Sabelo_pic.png') 
+    Pic =Image.open('resources/imgs/Sabelo_Pic.png') 
     col2.image(Pic,caption="Sabelo Makhanya", width=150)
     col2.write('isabelomakhanya@gmail.com')
 
     
-    Pic =Image.open('resources/imgs/Matthew_pic.png') 
+    Pic =Image.open('resources/imgs/Matthew_Pic.png') 
     col3.image(Pic,caption="Matthew Rip", width=150)
     col3.write('isabelomakhanya@gmail.com')
 
@@ -133,13 +133,13 @@ def main():
     col4.image(Pic,caption="Rickie Mogale Mohale", width=150)
     col4.write('mogalerickie@gmail.com')
 
-    Pic =Image.open('resources/imgs/Givenson_pic.png') 
+    Pic =Image.open('resources/imgs/Givenson_Pic.png') 
     col5.image(Pic,caption="Givenson Mwandla", width=150)
     col5.write('gtmwandla@gmail.com')
 
-    Pic =Image.open('resources/imgs/Givenson_pic.png') 
-    col6.image(Pic,caption="Akhona Njeje", width=150)
-    col6.write('Akhonanjeje@yahoo.com')
+    #Pic =Image.open('resources/imgs/Givenson_pic.png') 
+    #col6.image(Pic,caption="Akhona Njeje", width=150)
+    #col6.write('Akhonanjeje@yahoo.com')
 
 
     # You may want to add more sections here for aspects such as an EDA,
