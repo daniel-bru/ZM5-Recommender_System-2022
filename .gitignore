@@ -153,3 +153,6 @@ data/tags.csv
 
 # private markdown
 TO-DO.md
+
+# pickle files
+*.pkl

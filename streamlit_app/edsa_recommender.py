@@ -37,12 +37,33 @@ from PIL import Image
 from utils.data_loader import load_movie_titles
 from recommenders.collaborative_based import collab_model
 from recommenders.content_based import content_model
+## 
+import base64
+
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import RendererAgg
+from matplotlib.figure import Figure
+_lock = RendererAgg.lock
+
+
 
 # Data Loading
 title_list = load_movie_titles('resources/data/movies.csv')
 
 # App declaration
 def main():
+
+
+    ### Loading Company logo
+    row1_space1, center_, row1_space2 = st.beta_columns((.5, 1, .2, ))
+    with center_,_lock :        
+            
+        file_ = open('resources/imgs/Company_logo.gif', "rb")
+        contents = file_.read()
+        data_url = base64.b64encode(contents).decode("utf-8")
+        file_.close()
+        st.markdown(f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">',unsafe_allow_html=True,)	
+
 
     # DO NOT REMOVE the 'Recommender System' option below, however,
     # you are welcome to add more options to enrich your app.
@@ -137,9 +158,9 @@ def main():
         col5.image(Pic,caption="Givenson Mwandla", width=150)
         col5.write('gtmwandla@gmail.com')
 
-        #Pic =Image.open('resources/imgs/Givenson_pic.png') 
-        #col6.image(Pic,caption="Akhona Njeje", width=150)
-        #col6.write('Akhonanjeje@yahoo.com')
+        Pic =Image.open('resources/imgs/Akhona_Pic.png') 
+        col6.image(Pic,caption="Akhona Njeje", width=150)
+        col6.write('Akhonanjeje@yahoo.com')
 
 
     # You may want to add more sections here for aspects such as an EDA,
