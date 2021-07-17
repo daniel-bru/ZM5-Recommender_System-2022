@@ -136,6 +136,17 @@ def collab_model(movie_list,top_n=10):
 
     temp = get_user_movies(ratings, user_ids)
 
+    movie_ids = []
+    for i in movie_list:
+        movieID = movies_df[movies_df['title']==i]['movieId'].values[0]  
+        movie_ids.append(movieID)
+        
+    # Add new user with ratings to userlist
+    new_user_row1 = {'userId':1000000, 'movieId':movie_ids[0], 'rating':5.0, 'title': movie_list[0]}
+    new_user_row2 = {'userId':1000000, 'movieId':movie_ids[1], 'rating':5.0, 'title': movie_list[1]}
+    new_user_row3 = {'userId':1000000, 'movieId':movie_ids[2], 'rating':5.0, 'title': movie_list[2]}
+    temp = temp.append([new_user_row1,new_user_row2,new_user_row3], ignore_index=True)
+
     user_ratings = temp.pivot_table(index='userId', columns='title', values='rating').fillna(0)
     item_similarity_df = user_ratings.corr(method='pearson')
 
