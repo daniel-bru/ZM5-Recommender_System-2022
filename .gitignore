@@ -130,6 +130,7 @@ dmypy.json
 
 # datasets (too large for GitHub)
 unsupervised_movie_data/
+big_train.csv
 # test.csv
 # train.csv
 # genome_scores.csv
