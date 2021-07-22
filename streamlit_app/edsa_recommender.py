@@ -72,7 +72,7 @@ def main():
 
     # DO NOT REMOVE the 'Recommender System' option below, however,
     # you are welcome to add more options to enrich your app.
-    page_options = ["Recommender System","Movie Dataset Visualization","Solution Overview", "Project Team"]
+    page_options = ["Recommender System","Movie Dataset Visualization","Solution Overview","Company Information & Background", "Project Team"]
 
     # -------------------------------------------------------------------
     # ----------- !! THIS CODE MUST NOT BE ALTERED !! -------------------
@@ -130,35 +130,40 @@ def main():
         st.write("Describe your winning approach on this page")
 
     if page_selection == "Project Team":
-        st.header('Our Amazing Team')
-        st.write('A team of 6 passionate AI solutionists.')
+        st.title('Meet The A Team')
+        
         # First row of pictures
 
         col1, col2, col3 = st.beta_columns(3)
         Pic = Image.open('resources/imgs/Daniel_Pic.png')
         col1.image(Pic, caption="Daniel Bruintjies", width=150)
-        col1.write('dmbruintjies@gmail.com')
+        col1.write('ML Engineer')
 
         Pic = Image.open('resources/imgs/Sabelo_Pic.png')
         col2.image(Pic, caption="Sabelo Makhanya", width=150)
-        col2.write('isabelomakhanya@gmail.com')
+        col4.write('Data Scientist')
 
         Pic = Image.open('resources/imgs/Matthew_Pic.png')
         col3.image(Pic, caption="Matthew Rip", width=150)
-        col3.write('isabelomakhanya@gmail.com')
+        col1.write('ML Engineer')
 
         col4, col5, col6 = st.beta_columns(3)
         Pic = Image.open('resources/imgs/Rickie_pic.png')
         col4.image(Pic, caption="Rickie Mogale Mohale", width=150)
-        col4.write('mogalerickie@gmail.com')
+        col4.write('Data Scientist')
 
         Pic = Image.open('resources/imgs/Givenson_Pic.png')
         col5.image(Pic, caption="Givenson Mwandla", width=150)
-        col5.write('gtmwandla@gmail.com')
+        col6.write('Data Analyst')
 
         Pic = Image.open('resources/imgs/Akhona_Pic.png')
         col6.image(Pic, caption="Akhona Njeje", width=150)
-        col6.write('Akhonanjeje@yahoo.com')
+        col6.write('Data Analyst')
+
+        col7, col8, col9 = st.beta_columns(3)
+        Pic = Image.open('resources/imgs/Zintle_Pic.png')
+        col8.image(Pic, caption="Zintle Faltein-Maqubela", width=150)
+        col8.write('Project Supervisor')
 
     if page_selection == "Movie Dataset Visualization":
 
@@ -289,7 +294,32 @@ def main():
             plt.axis("off")
             st.set_option('deprecation.showPyplotGlobalUse', False)
             plt.rcParams["axes.grid"] = False
-            st.pyplot()  
+            st.pyplot() 
+    
+    if page_selection == "Company Information& Background" :
+        st.title("Company Information & Background")
+        st.header('About Us')
+        
+        """ * Watch Me is a self-service platform used by Cinemas to recommend movies to their customers"""
+        """* The platform is also available to the public. Users can recommend movies amongst each other with the help of recommender algorithms for a better user experience """
+        """* We charge Cinemas a price of R20 per customer.The public can access the platform with a yearly subscription of R120."""
+        st.write("")
+        st.header('Problem Statement')
+        """* With the current era of an endless supply of movies ,it can be overwhelming for a user to choose a movie"""
+        """* This can lead to users randomly selecting movies that they might not like or end up not watching it"""
+        """* This can be costly for someone who paid to watch that movie at the cinema.This problem worsen when a family or group of friends decides to watch a movie together"""
+        
+        st.write("")
+        st.header('Watch Me Proposed Solution')
+        """* During movie night-out/at the cinema –A group of friends or family can enter a list of their most liked movies into the Watch Me Self-Service platform"""
+        """* The platform will then use recommender algorithms to suggest movies that the user/users will probably like"""
+        st.header('How Will Cinemas Benefit From Using Our Service ')
+        """ * Our platform will ensure that cinema customers watch movies that they would actually like""" 
+        """ * This will improve customer experience (People will not feel as if they are being ripped off)"""
+        """ * The better the customer experience, the more likely a customer would return to the cinema or invite a friend"""
+        """ * This would increase customer traffic, and result in a profit increase."""
+
+
 
 if __name__ == '__main__':
     main()
