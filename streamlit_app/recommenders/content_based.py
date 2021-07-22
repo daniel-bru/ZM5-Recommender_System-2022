@@ -35,7 +35,7 @@ from sklearn.metrics.pairwise import linear_kernel
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Importing data
-movies = pd.read_csv('resources/data/movies.csv')
+movies = pd.read_csv('~/unsupervised_data/unsupervised_movie_data/movies.csv')
 ratings = pd.read_csv('resources/data/ratings.csv')
 movies.dropna(inplace=True)
 

@@ -50,24 +50,25 @@ from wordcloud import WordCloud
 _lock = RendererAgg.lock
 
 # Data Loading
-title_list = load_movie_titles('resources/data/movies.csv')
+title_list = load_movie_titles('~/unsupervised_data/unsupervised_movie_data/movies.csv')
 
 #Creating dataframes
-df_movies = pd.read_csv('resources/data/movies.csv')
-df_imdb = pd.read_csv('resources/data/imdb_data.csv')
-df_tags = pd.read_csv('resources/data/tags.csv')
+df_movies = pd.read_csv('~/unsupervised_data/unsupervised_movie_data/movies.csv')
+df_imdb = pd.read_csv('~/unsupervised_data/unsupervised_movie_data/imdb_data.csv')
+df_tags = pd.read_csv('~/unsupervised_data/unsupervised_movie_data/tags.csv')
 
 # App declaration
 def main():
     ### Loading Company logo
-    row1_space1, center_, row1_space2 = st.beta_columns((.5, 1, .2,))
-    with center_, _lock:
+    st.sidebar.image('resources/imgs/Company_logo-alt.png')
+    # row1_space1, center_, row1_space2 = st.beta_columns((.5, 1, .2,))
+    # with center_, _lock:
 
-        file_ = open('resources/imgs/Company_logo.gif', "rb")
-        contents = file_.read()
-        data_url = base64.b64encode(contents).decode("utf-8")
-        file_.close()
-        st.markdown(f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">', unsafe_allow_html=True, )
+    #     file_ = open('resources/imgs/Company_logo.gif', "rb")
+    #     contents = file_.read()
+    #     data_url = base64.b64encode(contents).decode("utf-8")
+    #     file_.close()
+    #     st.markdown(f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">', unsafe_allow_html=True, )
 
     # DO NOT REMOVE the 'Recommender System' option below, however,
     # you are welcome to add more options to enrich your app.
@@ -166,6 +167,7 @@ def main():
         
         ################# Plot 1 ############
         # Create dataframe containing only the movieId and genres
+
         movies_genres = pd.DataFrame(df_movies[['movieId', 'genres']],columns=['movieId', 'genres'])
         # Split genres seperated by "|" and create a list containing the genres allocated to each movie
         movies_genres.genres = movies_genres.genres.apply(lambda x: x.split('|'))
@@ -210,10 +212,63 @@ def main():
         st.write("")  
 
 
+        graphplots = ["Please select", "-- Top Genre","-- Top Actor"]
+
+    
+        plot_selection = st.sidebar.selectbox("Select graph", graphplots)
+        if plot_selection == "-- Top Genre":
+
+                    movies_genres = pd.DataFrame(df_movies[['movieId', 'genres']],columns=['movieId', 'genres'])
+                    # Split genres seperated by "|" and create a list containing the genres allocated to each movie
+                    movies_genres.genres = movies_genres.genres.apply(lambda x: x.split('|'))
+                    # Create expanded dataframe where each movie-genre combination is in a seperate row
+                    movies_genres = pd.DataFrame([(tup.movieId, d) for tup in movies_genres.itertuples() for d in tup.genres],columns=['movieId', 'genres'])
+
+                    fig1 =Figure()
+                    ax = fig1.subplots()
+                    sns.countplot(y="genres", data=movies_genres,order=movies_genres['genres'].value_counts(ascending=False).index,palette='deep',ax=ax)
+                    ax.set_ylabel('Genre')
+                    plt.title('Number of Movies\n', fontsize=20)
+                    st.pyplot(fig1)
+                    st.write("")
+
+        ################# Plot 2 ############
+        if plot_selection == "-- Top Actor":
+            movies_actor = pd.DataFrame(df_imdb[['movieId', 'title_cast']],columns=['movieId', 'title_cast'])
+
+            # Split title_cast seperated by "|" and create a list containing the title_cast allocated to each movie
+            movies_actor= movies_actor[movies_actor['title_cast'].notnull()]
+            movies_actor.title_cast = movies_actor.title_cast.apply(lambda x: x.split('|'))
+            # Create expanded dataframe where each movie-tite_cast combination is in a seperate row
+            movies_actor = pd.DataFrame([(tup.movieId, d) for tup in movies_actor.itertuples() for d in tup.title_cast],columns=['movieId','title_cast'])
+            movies_actor = movies_actor.groupby(['title_cast'])['movieId'].count().reset_index(name='Number of Movies')
+            movies_actor =movies_actor.sort_values(by='Number of Movies',ascending=False)
+            #Sececting the Top 20 actors in movies
+            movies_actor = movies_actor .head(20)
+            movies_actor =movies_actor.sort_values(by='Number of Movies',ascending=True)
+
+            y_labels =movies_actor['title_cast']
+
+            # Plot the figure.
+            y_labels =movies_actor['title_cast']
+            fig2 =Figure()
+            ax = fig2.subplots()
+            ax = movies_actor['Number of Movies'].plot(kind='barh',color='m',ax=ax)
+            #sns.countplot(y='title_cast', data=movies_actor,order=movies_actor['title_cast'].value_counts(ascending=False).index,palette='deep',ax=ax)
+            ax.set_ylabel('Name of Actor')
+            ax.set_xlabel('Number of movies featuring the actor')
+            plt.title('Top 20 Actors in most Movies from the imdb database\n', fontsize=20)
+            ax.set_yticklabels(y_labels)
+            st.pyplot(fig2)
+            st.write("")  
+
+
+
 
 
         ################## Plot 3 ################################    
      
+
         ## grouping the movies by the director and counting the total number of movies per director
         movies_director = pd.DataFrame(df_imdb[['movieId', 'director']],columns=['movieId', 'director'])
         movies_director  = movies_director.groupby(['director'])['movieId'].count().reset_index(name="count")
@@ -284,6 +339,60 @@ def main():
         #st.set_option('deprecation.showPyplotGlobalUse', False)
         #plt.rcParams["axes.grid"] = False
         #st.pyplot(figsize=(18, 12), dpi=85) 
+
+        # ## grouping the movies by the director and counting the total number of movies per director
+        # movies_director = pd.DataFrame(df_imdb[['movieId', 'director']],columns=['movieId', 'director'])
+        # movies_director  = movies_director.groupby(['director'])['movieId'].count().reset_index(name="count")
+        # movies_director =movies_director.sort_values(by='count',ascending=False)
+        # movies_director = movies_director .head(20)
+        # movies_director =movies_director.sort_values(by='count',ascending=True)
+
+
+        # y_labels =movies_director['director']
+        # # Plot the figure.
+        # fig3 =Figure()
+        # ax = fig3.subplots()
+        # ax = movies_director ['count'].plot(kind='barh',color='y',ax=ax)
+        # ax.set_title('Top 20 directors with the  most Movies from imdb database')
+        # ax.set_xlabel('Number of Movies Directed')
+        # ax.set_ylabel('Name of director')
+        # ax.set_yticklabels(y_labels)
+        # st.pyplot(fig3)
+        # st.write("")
+    
+        # ################## Plot 4 ################################   
+        # movies_plot = pd.DataFrame(df_imdb[['movieId', 'plot_keywords']],columns=['movieId', 'plot_keywords'])
+        # # Split play plot seperated by "|" and create a list containing the play plot allocated to each movie
+        # movies_plot= movies_plot[movies_plot['plot_keywords'].notnull()]
+        # movies_plot.plot_keywords = movies_plot.plot_keywords.apply(lambda x: x.split('|'))
+        # # Create expanded dataframe where each movie-play_plot combination is in a seperate row
+        # movies_plot = pd.DataFrame([(tup.movieId, d) for tup in movies_plot.itertuples() for d in tup.plot_keywords],columns=['movieId','plot_keywords'])
+        # movies_plot = movies_plot.groupby(['plot_keywords'])['movieId'].count().reset_index(name="count")
+        # movies_plot =movies_plot.sort_values(by='count',ascending=False)
+        # movies_plot = movies_plot.head(20)
+        # movies_plot =movies_plot.sort_values(by='count',ascending=True) 
+
+        # y_labels =movies_plot['plot_keywords']
+        # # Plot the figure.
+        # fig4 =Figure()
+        # ax = fig4.subplots()
+        # ax = movies_plot ['count'].plot(kind='barh',color='firebrick',ax=ax)
+        # ax.set_title('Top 20 Popular Play Plots ')
+        # ax.set_xlabel('Total Number of Play Plots')
+        # ax.set_ylabel('Movie plot')
+        # ax.set_yticklabels(y_labels) 
+        # st.pyplot(fig4)
+        # st.write("") 
+
+    
+        # ###################### Plot 5 ##############################
+        # tags_2 =str(list(df_tags['tag']))
+
+        # wc = WordCloud(background_color = "white", max_words = 100 , width = 1600 , height = 800,collocations=False).generate(tags_2)
+        # plt.imshow(wc)
+        # plt.axis("off")
+        # #plt.rcParams["axes.grid"] = False
+        # st.pyplot()       
 
     # You may want to add more sections here for aspects such as an EDA,
     # or to provide your business pitch.
