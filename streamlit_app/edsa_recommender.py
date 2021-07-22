@@ -174,9 +174,9 @@ def main():
 
         fig1 =Figure()
         ax = fig1.subplots()
-        sns.countplot(y="genres", data=movies_genres,order=movies_genres['genres'].value_counts(ascending=False).index,palette='deep',ax=ax)
+        sns.countplot(y="genres", data=movies_genres,order=movies_genres['genres'].value_counts(ascending=False).index,color='b', ec= 'red', alpha=0.9,ax=ax)
         ax.set_ylabel('Genre')
-        plt.title('Number of Movies\n', fontsize=20)
+        ax.set_title('Popular Movie Genres')
         st.pyplot(fig1)
         st.write("")
 
@@ -198,16 +198,19 @@ def main():
 
         # Plot the figure.
         y_labels =movies_actor['title_cast']
-        fig2 =Figure()
+        fig2 =Figure(figsize=(17, 12),dpi =85)
         ax = fig2.subplots()
-        ax = movies_actor['Number of Movies'].plot(kind='barh',color='m',ax=ax)
+        ax = movies_actor['Number of Movies'].plot(kind='barh',color='b', fontsize=17,edgecolor='red', xlim=[45,84], width=.75, alpha=0.8,ax=ax)
         #sns.countplot(y='title_cast', data=movies_actor,order=movies_actor['title_cast'].value_counts(ascending=False).index,palette='deep',ax=ax)
-        ax.set_ylabel('Name of Actor')
-        ax.set_xlabel('Number of movies featuring the actor')
-        plt.title('Top 20 Actors in most Movies from the imdb database\n', fontsize=20)
+        ax.set_ylabel('Name of Actor' ,fontsize=30)
+        ax.set_xlabel('Number of movies featuring the actor',fontsize=30)
+        ax.set_title('Top 20 Actors in most Movies ',fontsize=30)
         ax.set_yticklabels(y_labels)
         st.pyplot(fig2)
         st.write("")  
+
+
+
 
         ################## Plot 3 ################################    
      
@@ -218,15 +221,14 @@ def main():
         movies_director = movies_director .head(20)
         movies_director =movies_director.sort_values(by='count',ascending=True)
 
-
         y_labels =movies_director['director']
         # Plot the figure.
-        fig3 =Figure()
+        fig3 =Figure(figsize=(18, 12), dpi =85)
         ax = fig3.subplots()
-        ax = movies_director ['count'].plot(kind='barh',color='y',ax=ax)
-        ax.set_title('Top 20 directors with the  most Movies from imdb database')
-        ax.set_xlabel('Number of Movies Directed')
-        ax.set_ylabel('Name of director')
+        ax = movies_director ['count'].plot(kind='barh',color='b',edgecolor='red', width=.7, fontsize=16, xlim=[8,30], alpha=0.9,ax=ax)
+        ax.set_title('Top 20 directors with the  most Movies from imdb database',fontsize=30)
+        ax.set_xlabel('Number of Movies Directed',fontsize=30)
+        ax.set_ylabel('Name of director',fontsize=30)
         ax.set_yticklabels(y_labels)
         st.pyplot(fig3)
         st.write("")
@@ -245,25 +247,43 @@ def main():
 
         y_labels =movies_plot['plot_keywords']
         # Plot the figure.
-        fig4 =Figure()
+        fig4 =Figure(figsize=(18, 12), dpi=85)
         ax = fig4.subplots()
-        ax = movies_plot ['count'].plot(kind='barh',color='firebrick',ax=ax)
-        ax.set_title('Top 20 Popular Play Plots ')
-        ax.set_xlabel('Total Number of Play Plots')
-        ax.set_ylabel('Movie plot')
+        ax = movies_plot ['count'].plot(kind='barh',color='darkblue',fontsize=17,edgecolor='r', width=.7, alpha=0.7,ax=ax)
+        ax.set_title('Top 20 Popular Play Plots ',fontsize=30)
+        ax.set_xlabel('Total Number of Play Plots',fontsize=30)
+        ax.set_ylabel('Movie plot',fontsize=30)
         ax.set_yticklabels(y_labels) 
         st.pyplot(fig4)
         st.write("") 
 
-    
+
         ###################### Plot 5 ##############################
         tags_2 =str(list(df_tags['tag']))
 
         wc = WordCloud(background_color = "white", max_words = 100 , width = 1600 , height = 800,collocations=False).generate(tags_2)
         plt.imshow(wc)
         plt.axis("off")
+        st.set_option('deprecation.showPyplotGlobalUse', False)
+        plt.rcParams["axes.grid"] = False
+        st.pyplot(figsize=(18, 12), dpi=85)  
+
+        
+        
+        #dove_mask[230:250, 240:250]
+        #plt.imshow(Pic)
+        #plt.axis("off")
+        #plt.show()
+        #Pic_Mask = np.array(Image.open('resources/imgs/film_cut.png'))
+        
+        #wordcloud = WordCloud(background_color="white",mask=Pic_Mask,contour_width=3,repeat=True,min_font_size=3,contour_color='darkgreen') 
+        #wordcloud.generate(tags_2)   
+
+        #plt.imshow(wordcloud)
+        #plt.axis("off")
+        #st.set_option('deprecation.showPyplotGlobalUse', False)
         #plt.rcParams["axes.grid"] = False
-        st.pyplot()       
+        #st.pyplot(figsize=(18, 12), dpi=85) 
 
     # You may want to add more sections here for aspects such as an EDA,
     # or to provide your business pitch.
