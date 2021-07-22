@@ -133,7 +133,10 @@ def main():
     # ------------- SAFE FOR ALTERING/EXTENSION -------------------
     if page_selection == "Solution Overview":
         st.title("Solution Overview")
-        st.write("Describe your winning approach on this page")
+        st.write("Watch Me is a self-service platform used by Cinemas to recommend movies to their customers. The platform is also available to the public. Users can recommend movies amongst each other with the help of recommender algorithms for a better user experience. We charge Cinemas a price of R20 per customer. The public can access the platform with a yearly subscription of R120.")
+        st.write("During movie night-out/at the cinema –A group of friends or family can enter a list of their most liked movies into the Watch Me Self-Service plat")
+        st.write("The platform will then use recommender algorithms to suggest movies that the user/users will probably like.")
+        
 
     if page_selection == "Project Team":
         st.header('Our Amazing Team')
