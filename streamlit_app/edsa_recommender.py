@@ -74,7 +74,7 @@ def main():
     # DO NOT REMOVE the 'Recommender System' option below, however,
     # you are welcome to add more options to enrich your app.
 
-    page_options = ["Recommender System","Movie Dataset Visualization","Solution Overview","Company Information & Background", "Project Team"]
+    page_options = ["Recommender System","Movie Dataset Visualization","Company Information & Background", "Project Team"]
 
  
 
@@ -129,11 +129,11 @@ def main():
     # -------------------------------------------------------------------
 
     # ------------- SAFE FOR ALTERING/EXTENSION -------------------
-    if page_selection == "Solution Overview":
-        st.title("Solution Overview")
-        st.write("Watch Me is a self-service platform used by Cinemas to recommend movies to their customers. The platform is also available to the public. Users can recommend movies amongst each other with the help of recommender algorithms for a better user experience. We charge Cinemas a price of R20 per customer. The public can access the platform with a yearly subscription of R120.")
-        st.write("During movie night-out/at the cinema –A group of friends or family can enter a list of their most liked movies into the Watch Me Self-Service plat")
-        st.write("The platform will then use recommender algorithms to suggest movies that the user/users will probably like.")
+    # if page_selection == "Solution Overview":
+    #     st.title("Solution Overview")
+    #     st.write("Watch Me is a self-service platform used by Cinemas to recommend movies to their customers. The platform is also available to the public. Users can recommend movies amongst each other with the help of recommender algorithms for a better user experience. We charge Cinemas a price of R20 per customer. The public can access the platform with a yearly subscription of R120.")
+    #     st.write("During movie night-out/at the cinema –A group of friends or family can enter a list of their most liked movies into the Watch Me Self-Service plat")
+    #     st.write("The platform will then use recommender algorithms to suggest movies that the user/users will probably like.")
 
     if page_selection == "Project Team":
         st.title('Meet The A Team')
@@ -147,11 +147,11 @@ def main():
 
         Pic = Image.open('resources/imgs/Sabelo_Pic.png')
         col2.image(Pic, caption="Sabelo Makhanya", width=150)
-        col4.write('Data Scientist')
+        col2.write('Data Scientist')
 
         Pic = Image.open('resources/imgs/Matthew_Pic.png')
         col3.image(Pic, caption="Matthew Rip", width=150)
-        col1.write('ML Engineer')
+        col3.write('ML Engineer')
 
         col4, col5, col6 = st.beta_columns(3)
         Pic = Image.open('resources/imgs/Rickie_pic.png')
@@ -160,7 +160,7 @@ def main():
 
         Pic = Image.open('resources/imgs/Givenson_Pic.png')
         col5.image(Pic, caption="Givenson Mwandla", width=150)
-        col6.write('Data Analyst')
+        col5.write('Data Analyst')
 
         Pic = Image.open('resources/imgs/Akhona_Pic.png')
         col6.image(Pic, caption="Akhona Njeje", width=150)
@@ -329,7 +329,7 @@ def main():
             plt.rcParams["axes.grid"] = False
             st.pyplot() 
     
-    if page_selection == "Company Information& Background" :
+    if page_selection == "Company Information & Background":
         st.title("Company Information & Background")
         st.header('About Us')
         
