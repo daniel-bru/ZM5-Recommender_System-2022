@@ -136,7 +136,6 @@ def main():
         st.write("Watch Me is a self-service platform used by Cinemas to recommend movies to their customers. The platform is also available to the public. Users can recommend movies amongst each other with the help of recommender algorithms for a better user experience. We charge Cinemas a price of R20 per customer. The public can access the platform with a yearly subscription of R120.")
         st.write("During movie night-out/at the cinema –A group of friends or family can enter a list of their most liked movies into the Watch Me Self-Service plat")
         st.write("The platform will then use recommender algorithms to suggest movies that the user/users will probably like.")
-        
 
     if page_selection == "Project Team":
         st.header('Our Amazing Team')
@@ -210,8 +209,6 @@ def main():
             st.info(
                 'The graph shows that people tend to enjoy certain movie genres such as drama  and comedy than musical movies')
 
-        
-
             ################# Plot 2 ############
         if plot_selection == "-- Top 20 Actors in most Movies":
             movies_actor = pd.DataFrame(df_imdb[['movieId', 'title_cast']], columns=[
@@ -283,7 +280,6 @@ def main():
             st.write("")
             st.info('Actors and directors are featured in most movies are likely to receive more resources  for them to improve on  their craft, and the more people will like their movies')
 
-
             ################## Plot 4 ################################
         if plot_selection == "-- Top 20 Popular Play Plots":
 
@@ -329,7 +325,6 @@ def main():
             st.set_option('deprecation.showPyplotGlobalUse', False)
             plt.rcParams["axes.grid"] = False
             st.pyplot()
-
 
             ###################### Select ##############################
 
