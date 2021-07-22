@@ -163,33 +163,38 @@ def main():
     if page_selection == "Movie Dataset Visualization":
 
         st.title("Movie Dataset Visualization")
-        st.info("This page shows various visuals about Movies from the IMDb database.")
+        st.info("This page shows various visuals about Movies from the IMDb database")
+
+        Plot_Name = ["Popular Movie Genres","Top 20 Actors in most Movies",
+        "Top 20 Directors With The  Most Movies ","Top 20 Popular Play Plots","Popular Movie tags Wordcloud"]
+        Plot_Selection = st.radio("Please Select  A Visualisation plot ",Plot_Name)
+
+        st.write("")
+
+        if Plot_Selection == "Popular Movie Genres":
         
-        ################# Plot 1 ############
-        # Create dataframe containing only the movieId and genres
+            ################# Plot 1 ############
+            # Create dataframe containing only the movieId and genres
 
-        graphplots = ["Please select", "-- Top Genre","-- Top Actor"]
+            movies_genres = pd.DataFrame(df_movies[['movieId', 'genres']],columns=['movieId', 'genres'])
+            # Split genres seperated by "|" and create a list containing the genres allocated to each movie
+            movies_genres.genres = movies_genres.genres.apply(lambda x: x.split('|'))
+            # Create expanded dataframe where each movie-genre combination is in a seperate row
+            movies_genres = pd.DataFrame([(tup.movieId, d) for tup in movies_genres.itertuples() for d in tup.genres],columns=['movieId', 'genres'])
 
-    
-        plot_selection = st.sidebar.selectbox("Select graph", graphplots)
-        if plot_selection == "-- Top Genre":
+            fig1 =Figure()
+            ax = fig1.subplots()
+            sns.countplot(y="genres", data=movies_genres,order=movies_genres['genres'].value_counts(ascending=False).index,color='b', ec= 'red', alpha=0.9,ax=ax)
+            ax.set_ylabel('Genre')
+            ax.set_title('Popular Movie Genres')
+            st.pyplot(fig1)
+            st.write("")
+            st.info('The graph shows that people tend to enjoy certain movie genres such as drama  and comedy than musical movies')
 
-                    movies_genres = pd.DataFrame(df_movies[['movieId', 'genres']],columns=['movieId', 'genres'])
-                    # Split genres seperated by "|" and create a list containing the genres allocated to each movie
-                    movies_genres.genres = movies_genres.genres.apply(lambda x: x.split('|'))
-                    # Create expanded dataframe where each movie-genre combination is in a seperate row
-                    movies_genres = pd.DataFrame([(tup.movieId, d) for tup in movies_genres.itertuples() for d in tup.genres],columns=['movieId', 'genres'])
 
-                    fig1 =Figure()
-                    ax = fig1.subplots()
-                    sns.countplot(y="genres", data=movies_genres,order=movies_genres['genres'].value_counts(ascending=False).index,palette='deep',ax=ax)
-                    ax.set_ylabel('Genre')
-                    plt.title('Number of Movies\n', fontsize=20)
-                    st.pyplot(fig1)
-                    st.write("")
+        if Plot_Selection == "Top 20 Actors in most Movies":
 
-        ################# Plot 2 ############
-        if plot_selection == "-- Top Actor":
+            ################# Plot 2 ############
             movies_actor = pd.DataFrame(df_imdb[['movieId', 'title_cast']],columns=['movieId', 'title_cast'])
 
             # Split title_cast seperated by "|" and create a list containing the title_cast allocated to each movie
@@ -207,76 +212,84 @@ def main():
 
             # Plot the figure.
             y_labels =movies_actor['title_cast']
-            fig2 =Figure()
+            fig2 =Figure(figsize=(17, 12),dpi =85)
             ax = fig2.subplots()
-            ax = movies_actor['Number of Movies'].plot(kind='barh',color='m',ax=ax)
+            ax = movies_actor['Number of Movies'].plot(kind='barh',color='b', fontsize=17,edgecolor='red', xlim=[45,84], width=.75, alpha=0.8,ax=ax)
             #sns.countplot(y='title_cast', data=movies_actor,order=movies_actor['title_cast'].value_counts(ascending=False).index,palette='deep',ax=ax)
-            ax.set_ylabel('Name of Actor')
-            ax.set_xlabel('Number of movies featuring the actor')
-            plt.title('Top 20 Actors in most Movies from the imdb database\n', fontsize=20)
+            ax.set_ylabel('Name of Actor' ,fontsize=30)
+            ax.set_xlabel('Number of movies featuring the actor',fontsize=30)
+            ax.set_title('Top 20 Actors in most Movies ',fontsize=30)
             ax.set_yticklabels(y_labels)
             st.pyplot(fig2)
-            st.write("")  
+            st.write("") 
+            st.info('Actors mostly liked by people tend to be featured in most movies')
+ 
 
-        ################## Plot 3 ################################    
+        if Plot_Selection == "Top 20 Directors With The  Most Movies ":
+            ################## Plot 3 ################################    
      
-        # ## grouping the movies by the director and counting the total number of movies per director
-        # movies_director = pd.DataFrame(df_imdb[['movieId', 'director']],columns=['movieId', 'director'])
-        # movies_director  = movies_director.groupby(['director'])['movieId'].count().reset_index(name="count")
-        # movies_director =movies_director.sort_values(by='count',ascending=False)
-        # movies_director = movies_director .head(20)
-        # movies_director =movies_director.sort_values(by='count',ascending=True)
+
+            ## grouping the movies by the director and counting the total number of movies per director
+            movies_director = pd.DataFrame(df_imdb[['movieId', 'director']],columns=['movieId', 'director'])
+            movies_director  = movies_director.groupby(['director'])['movieId'].count().reset_index(name="count")
+            movies_director =movies_director.sort_values(by='count',ascending=False)
+            movies_director = movies_director .head(20)
+            movies_director =movies_director.sort_values(by='count',ascending=True)
+
+            y_labels =movies_director['director']
+            # Plot the figure.
+            fig3 =Figure(figsize=(18, 12), dpi =85)
+            ax = fig3.subplots()
+            ax = movies_director ['count'].plot(kind='barh',color='b',edgecolor='red', width=.7, fontsize=16, xlim=[8,30], alpha=0.9,ax=ax)
+            ax.set_title('Top 20 directors with the  most Movies from imdb database',fontsize=30)
+            ax.set_xlabel('Number of Movies Directed',fontsize=30)
+            ax.set_ylabel('Name of director',fontsize=30)
+            ax.set_yticklabels(y_labels)
+            st.pyplot(fig3)
+            st.write("")
+            st.info('Directors that are mostly liked by people tend to release the most number movies')
+            st.write("")
+            st.info('Actors and directors are featured in most movies are likely to receive more resources  for them to improve on  their craft, and the more people will like their movies')
 
 
-        # y_labels =movies_director['director']
-        # # Plot the figure.
-        # fig3 =Figure()
-        # ax = fig3.subplots()
-        # ax = movies_director ['count'].plot(kind='barh',color='y',ax=ax)
-        # ax.set_title('Top 20 directors with the  most Movies from imdb database')
-        # ax.set_xlabel('Number of Movies Directed')
-        # ax.set_ylabel('Name of director')
-        # ax.set_yticklabels(y_labels)
-        # st.pyplot(fig3)
-        # st.write("")
+        if Plot_Selection =="Top 20 Popular Play Plots":
     
-        # ################## Plot 4 ################################   
-        # movies_plot = pd.DataFrame(df_imdb[['movieId', 'plot_keywords']],columns=['movieId', 'plot_keywords'])
-        # # Split play plot seperated by "|" and create a list containing the play plot allocated to each movie
-        # movies_plot= movies_plot[movies_plot['plot_keywords'].notnull()]
-        # movies_plot.plot_keywords = movies_plot.plot_keywords.apply(lambda x: x.split('|'))
-        # # Create expanded dataframe where each movie-play_plot combination is in a seperate row
-        # movies_plot = pd.DataFrame([(tup.movieId, d) for tup in movies_plot.itertuples() for d in tup.plot_keywords],columns=['movieId','plot_keywords'])
-        # movies_plot = movies_plot.groupby(['plot_keywords'])['movieId'].count().reset_index(name="count")
-        # movies_plot =movies_plot.sort_values(by='count',ascending=False)
-        # movies_plot = movies_plot.head(20)
-        # movies_plot =movies_plot.sort_values(by='count',ascending=True) 
+            ################## Plot 4 ################################   
+            movies_plot = pd.DataFrame(df_imdb[['movieId', 'plot_keywords']],columns=['movieId', 'plot_keywords'])
+            # Split play plot seperated by "|" and create a list containing the play plot allocated to each movie
+            movies_plot= movies_plot[movies_plot['plot_keywords'].notnull()]
+            movies_plot.plot_keywords = movies_plot.plot_keywords.apply(lambda x: x.split('|'))
+            # Create expanded dataframe where each movie-play_plot combination is in a seperate row
+            movies_plot = pd.DataFrame([(tup.movieId, d) for tup in movies_plot.itertuples() for d in tup.plot_keywords],columns=['movieId','plot_keywords'])
+            movies_plot = movies_plot.groupby(['plot_keywords'])['movieId'].count().reset_index(name="count")
+            movies_plot =movies_plot.sort_values(by='count',ascending=False)
+            movies_plot = movies_plot.head(20)
+            movies_plot =movies_plot.sort_values(by='count',ascending=True) 
 
-        # y_labels =movies_plot['plot_keywords']
-        # # Plot the figure.
-        # fig4 =Figure()
-        # ax = fig4.subplots()
-        # ax = movies_plot ['count'].plot(kind='barh',color='firebrick',ax=ax)
-        # ax.set_title('Top 20 Popular Play Plots ')
-        # ax.set_xlabel('Total Number of Play Plots')
-        # ax.set_ylabel('Movie plot')
-        # ax.set_yticklabels(y_labels) 
-        # st.pyplot(fig4)
-        # st.write("") 
+            y_labels =movies_plot['plot_keywords']
+            # Plot the figure.
+            fig4 =Figure(figsize=(18, 12), dpi=85)
+            ax = fig4.subplots()
+            ax = movies_plot ['count'].plot(kind='barh',color='darkblue',fontsize=17,edgecolor='r', width=.7, alpha=0.7,ax=ax)
+            ax.set_title('Top 20 Popular Play Plots ',fontsize=30)
+            ax.set_xlabel('Total Number of Play Plots',fontsize=30)
+            ax.set_ylabel('Movie plot',fontsize=30)
+            ax.set_yticklabels(y_labels) 
+            st.pyplot(fig4)
+            st.write("")
+            st.info('The  graph show\'s that people tend to enjoy a movie with certain movie plots, such as love and nudity.')
+ 
 
-    
-        # ###################### Plot 5 ##############################
-        # tags_2 =str(list(df_tags['tag']))
+        if Plot_Selection =="Popular Movie tags Wordcloud":
+            ###################### Plot 5 ##############################
+            tags_2 =str(list(df_tags['tag']))
 
-        # wc = WordCloud(background_color = "white", max_words = 100 , width = 1600 , height = 800,collocations=False).generate(tags_2)
-        # plt.imshow(wc)
-        # plt.axis("off")
-        # #plt.rcParams["axes.grid"] = False
-        # st.pyplot()       
-
-    # You may want to add more sections here for aspects such as an EDA,
-    # or to provide your business pitch.
-
+            wc = WordCloud(background_color = "white", max_words = 100 , width = 1600 , height = 800,collocations=False).generate(tags_2)
+            plt.imshow(wc)
+            plt.axis("off")
+            st.set_option('deprecation.showPyplotGlobalUse', False)
+            plt.rcParams["axes.grid"] = False
+            st.pyplot()  
 
 if __name__ == '__main__':
     main()
